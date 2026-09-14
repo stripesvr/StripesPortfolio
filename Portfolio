@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stripes Portfolio</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #080808;
+            --surface-color: #141414;
+            --surface-hover: #1c1c1c;
+            --accent-color: #e50914;
+            --accent-glow: rgba(229, 9, 20, 0.35);
+            --text-main: #f5f5f7;
+            --text-muted: #8e8e93;
+            --border-radius: 20px;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 60px 20px;
+            perspective: 1200px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            opacity: 0;
+            animation: fadeInDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        header h1 span {
+            color: var(--accent-color);
+            text-shadow: 0 0 25px var(--accent-glow);
+        }
+
+        .section-card {
+            background: linear-gradient(145deg, #161616, #101010);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            margin-bottom: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            transform-style: preserve-3d;
+            transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+            /* Set transition to 0s for instant snappy movement */
+            transition: transform 0s ease-out, border-color 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .section-card:nth-of-type(1) { animation-delay: 0.2s; }
+        .section-card:nth-of-type(2) { animation-delay: 0.3s; }
+        .section-card:nth-of-type(3) { animation-delay: 0.4s; }
+
+        .section-card:hover {
+            border-color: rgba(229, 9, 20, 0.4);
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.8),
+                0 0 25px var(--accent-glow);
+        }
+
+        .section-title {
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-title::before {
+            content: '';
+            display: block;
+            width: 5px;
+            height: 20px;
+            background-color: var(--accent-color);
+            border-radius: 4px;
+            box-shadow: 0 0 12px var(--accent-color);
+        }
+
+        .about-content {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .video-card {
+            background-color: var(--bg-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            transform-style: preserve-3d;
+            transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+            /* Set transition to 0s for instant snappy movement */
+            transition: transform 0s ease-out, border-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .video-card:hover {
+            border-color: rgba(229, 9, 20, 0.6);
+            box-shadow: 
+                0 20px 40px rgba(0,0,0,0.7),
+                0 0 25px var(--accent-glow);
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 177.77%;
+            background-color: #000;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Software Section Styles */
+        .software-box {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .software-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .software-desc {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .download-btn {
+            align-self: flex-start;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 20px var(--accent-glow);
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .download-btn:hover {
+            background-color: #ff1e2b;
+            transform: scale(1.05);
+        }
+
+        /* Fallback overlay styling when iframes fail to load locally */
+        .video-fallback {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #111;
+            padding: 20px;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .video-fallback p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        .watch-btn {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px var(--accent-glow);
+            transition: var(--transition);
+        }
+
+        .watch-btn:hover {
+            background-color: #ff1e2b;
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 20px 10px; }
+            .section-card { padding: 24px; }
+            header h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>Stripes <span>Portfolio</span></h1>
+        </header>
+
+        <!-- About Me Section -->
+        <section class="section-card tilt-element">
+            <h2 class="section-title">Who Is This Guy?</h2>
+            <div class="about-content">
+                <p>Hello! I'm Stripes, a professional stream clip editor! I have a lot of experience with SFX, Cutting, Keyframing, And Learning. I have edited for two DonutSMP content creators, @Isabxdlol and @Purrfectttt-MC, I have also previously made some for my channel. I love editing brotato chip. Some of my work below!</p>
+            </div>
+        </section>
+
+        <!-- Portfolio Shorts Section -->
+        <section class="section-card tilt-element">
+            <h2 class="section-title">Personal Favorite Edits</h2>
+
+            <div class="video-grid">
+                <!-- Video Item 1 -->
+                <div class="video-card tilt-element">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube-nocookie.com/embed/66UrImFmWnI" title="YouTube Short" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <div class="video-fallback" style="display:none;">
+                            <p>Watch this edit on YouTube</p>
+                            <a href="https://youtube.com/shorts/66UrImFmWnI" target="_blank" class="watch-btn">Open Short</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Item 2 -->
+                <div class="video-card tilt-element">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube-nocookie.com/embed/kX-njk1eCjU" title="YouTube Short" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <div class="video-fallback" style="display:none;">
+                            <p>Watch this edit on YouTube</p>
+                            <a href="https://youtube.com/shorts/kX-njk1eCjU" target="_blank" class="watch-btn">Open Short</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Item 3 -->
+                <div class="video-card tilt-element">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube-nocookie.com/embed/0s7yccPUdsQ" title="YouTube Short" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <div class="video-fallback" style="display:none;">
+                            <p>Watch this edit on YouTube</p>
+                            <a href="https://youtube.com/shorts/0s7yccPUdsQ" target="_blank" class="watch-btn">Open Short</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stream Clipping Software Section -->
+        <section class="section-card tilt-element">
+            <h2 class="section-title">My Stream Clipping Software</h2>
+            <div class="software-box">
+                <div class="software-name">Stripes Clip Downloader</div>
+                <div class="software-desc">
+                    A custom-built, clipping software made to download clips from streams in highest quality in SECONDS.
+                </div>
+                <a href="StripesClip.exe" download class="download-btn">Download StripesClip!</a>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Reveal fallback button locally if file:// blocks iframe
+        window.addEventListener('DOMContentLoaded', () => {
+            if (window.location.protocol === 'file:') {
+                document.querySelectorAll('.video-fallback').forEach(el => {
+                    el.style.display = 'flex';
+                });
+            }
+        });
+
+        // 3D Mouse Tilt Effect for individually hovered UI components
+        const tiltElements = document.querySelectorAll('.tilt-element');
+
+        tiltElements.forEach(el => {
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left; // x position inside element
+                const y = e.clientY - rect.top;  // y position inside element
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                // Calculate rotation angles (max 8 degrees for smooth depth)
+                const rotateX = -((y - centerY) / centerY) * 8;
+                const rotateY = ((x - centerX) / centerX) * 8;
+
+                el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.01, 1.01, 1.01)`;
+            });
+
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+            });
+        });
+    </script>
+</body>
+</html>
